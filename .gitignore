@@ -29,7 +29,7 @@ nbproject
 Thumbs.db
 
 # composer vendor dir
-/vendor
+
 
 # composer vagrant dir
 /vagrant
