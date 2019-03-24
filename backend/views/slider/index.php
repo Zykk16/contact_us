@@ -23,13 +23,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <?php foreach ($model as $item) : ?>
-
-            <div class="col-lg-3 col-md-4 col-6 thumb">
+            <div class="col-lg-4 col-md-4 col-sm-6 thumb">
                 <div class="flag"><a href="<?= Url::toRoute('slider/update') . '?id=' . $item['id'] ?>">Перейти</a></div>
                 <a data-fancybox="gallery"
                    href="<?= '/img/' . $item['path'] . '/' . $item['name'] . '.' . $item['format'] ?>">
+                    <div class="owerhidden">
                     <img class="img-fluid"
                          src="<?= '/img/' . $item['path'] . '/' . $item['name'] . '.' . $item['format'] ?>" alt="">
+                    </div>
                 </a>
             </div>
 

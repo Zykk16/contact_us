@@ -6,14 +6,6 @@ use yii\helpers\Html;
 
 $this->title = 'О нас';
 /** @var array $setting */
-
-
-foreach ($setting as $set) {
-    $desc = $set;
-    if ($desc['key'] === 'desc'){
-        $desc = $desc['value'];
-    }
-}
 ?>
 <section class="about">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -25,6 +17,6 @@ foreach ($setting as $set) {
                      alt=""></div>
         <?php } ?>
     </div>
-    <p><?= Html::encode($desc)?></p>
+    <p><?= Html::encode($setting[0]['value'])?></p>
     <br>
 </section>

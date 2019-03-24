@@ -1,6 +1,6 @@
 <?php
 return [
     'adminEmail' => 'admin@example.com',
-    'front' => 'http://contactus',
-    'back' => 'http://admin.contactus',
+    'front' => 'http://frunchosa.ru',
+    'back' => 'http://admin.frunchosa.ru',
 ];

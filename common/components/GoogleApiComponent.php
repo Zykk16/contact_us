@@ -2,67 +2,82 @@
 
 namespace common\components;
 
+use Google_Client;
+use Google_Service_Drive;
+use Google_Service_Drive_DriveFile;
 use Yii;
 use yii\base\Component;
-use google\apiclient;
 
-set_include_path(Yii::getAlias('@vendor') . '/google/apiclient/src');
 
 class GoogleApiComponent extends Component
 {
 
-    public function authenticateClient($code = null)
+    public function createDocumentGoogleApi()
     {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-            $_SESSION['expire_date'] = date("Y-m-d H:i:s", strtotime("+55 minutes"));
+        $query = (new \yii\db\Query())
+            ->select(['*'])
+            ->from('settings')->all();
+        foreach ($query as $key => $item) {
+            $res[$item['key']] = $item['value'];
         }
-        $credentials = Yii::getAlias('@common') . '/credentials.json';
 
-        $client = new \Google_Client();
-
-        $client->setAuthConfig($credentials);
-        $client->setApplicationName("Syarah Task");
+        $url_array = explode('?', 'http://' . $_SERVER ['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+        $url = $url_array[0];
+        $client = new Google_Client();
+        $client->setClientId($res['clientId']);
+        $client->setClientSecret($res['clientSecret']);
+        $client->setRedirectUri($url);
+        $client->setAccessType('offline');
+        $client->setScopes(array('https://www.googleapis.com/auth/drive.file'));
         $client->setAccessType('offline');
 
-        $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-        //$client->setRedirectUri($redirect_uri);
-        $client->addScope(\Google_Service_Drive::DRIVE);
-        if (isset($_SESSION['access_token']) && $_SESSION['access_token'] && (date('Y-m-d H:i:s') > $_SESSION['expire_date'])) {
-            $client->setAccessToken($_SESSION['access_token']);
-            $drive = new \Google_Service_Drive($client);
-            $files = $drive->files->listFiles([]);
-            return ['files' => $files, 'authUrl' => false];
-        }
-        $authUrl = $client->createAuthUrl();
-        return ['authUrl' => $authUrl];
-    }
+        if (isset($_GET['code'])) {
+            $cookies = Yii::$app->response->cookies;
 
-    public function retrieveAllFiles($code = null, $access_token = null)
-    {
-        $credentials = Yii::getAlias('@common') . '/credentials.json';
-        $client = new \Google_Client();
-        $client->setAuthConfig($credentials);
-        $client->setApplicationName("Syarah Task");
-        $client->setAccessType('offline');
-        $client->addScope(\Google_Service_Drive::DRIVE);
-        if (empty($code) && empty($access_token)) {
-            $auth_url = $client->createAuthUrl();
-            return ['authUrl' => $auth_url];
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'code',
+                'value' => $_GET['code'],
+            ]));
+
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'scope',
+                'value' => $_GET['scope'],
+            ]));
+
+            $response = $client->fetchAccessTokenWithAuthCode( $_GET['code'] );
+
+            $accessToken = $response['access_token']; // access токен
+            $expiresIn = $response['expires_in']; // истекает через 3600 (сек.) (1 час)
+            $scope = $response['scope']; // области, к которым был получен доступ
+            $tokenType = $response['token_type']; // тип токена
+            $created = $response['created']; // время создания токена 1537170421
+
+            $client->authenticate($_GET['code']);
+            $client->setAccessToken($accessToken);
+
+            $service = new Google_Service_Drive($client);
+
+            $files = scandir($_SERVER["DOCUMENT_ROOT"] . '/pdf');
+            rsort($files, SORT_DESC);
+            $lastfile = $files[0];
+
+            $file = new Google_Service_Drive_DriveFile();
+            $file_path = Yii::getAlias('@frontend') . '/web/pdf/' . $lastfile;
+            $file->setName($lastfile);
+            $file->setParents(['1XfFxgthV4JcUm_tsL0bjmEyfTLv1ZvI-']);
+            $file->setDescription('Сгенерированный pdf');
+            $file->setMimeType('application/pdf');
+            $service->files->create(
+                $file,
+                array(
+                    'data' => file_get_contents($file_path),
+                    'mimeType' => 'application/pdf'
+                )
+            );
         } else {
-            if (!empty($code) && empty($access_token)) {
-                $auth = $client->authenticate($code);
-                if (isset($auth['error'])) {
-                    $auth_url = $client->createAuthUrl();
-                    return ['authUrl' => $auth_url];
-                }
-                $_SESSION['access_token'] = $client->getAccessToken();
-                $client->setAccessToken($client->getAccessToken());
-            } else
-                $client->setAccessToken($access_token);
-            $drive = new \Google_Service_Drive($client);
-            $files = $drive->files->listFiles([]);
-            return ['files' => $files, 'authUrl' => false];
+            $authUrl = $client->createAuthUrl();
+            header('Location: ' . $authUrl);
+            exit();
         }
     }
 }

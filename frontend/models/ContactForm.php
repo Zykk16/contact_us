@@ -72,10 +72,10 @@ class ContactForm extends Model
     {
         $query = (new \yii\db\Query())
             ->select('*')
-            ->from('department d')
-            ->join('join', 'contactus c', 'd.id = c.id_dep')
+            ->from('contactus c')
+            ->join('join', 'department d', 'c.id_dep = d.id')
             ->orderBy(['c.id' => SORT_DESC])->limit(1)
-            ->one();
+            ->all();
         return $query;
     }
 }

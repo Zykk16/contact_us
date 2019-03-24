@@ -2,12 +2,10 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-
 /* @var $model \frontend\models\ContactForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\captcha\Captcha;
 use yii\widgets\MaskedInput;
 
 $this->title = 'Связаться с нами';
@@ -18,11 +16,7 @@ $this->title = 'Связаться с нами';
         <?php $form = ActiveForm::begin([
             'id' => 'contact-form',
             'options' => ['class' => 'flex-column validate'],
-//            'fieldConfig' => [
-//                'options' => [
-//                    'tag' => false
-//                ]
-//            ]
+
         ]); ?>
 
         <?= $form->field($model, 'department')->dropDownList($model->getDep4Cont(), ['option' => ['class' => 'department']]) ?>
@@ -39,7 +33,6 @@ $this->title = 'Связаться с нами';
         ]); ?>
 
         <?= $form->field($model, 'text')->textarea(['cols' => '30', 'rows' => '10', 'id' => 'textarea', 'maxlength' => '400']) ?>
-
         <?= Html::submitButton('Отправить', ['class' => 'button', 'name' => 'contact-button']) ?>
 
         <?php ActiveForm::end(); ?>

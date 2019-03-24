@@ -12,14 +12,6 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
-        'googleDrive' => [
-            'class' => 'lhs\Yii2FlysystemGoogleDrive',
-            'clientId'     => '848630762900-6d0tt9kfc5gnm3vdg62got9o9khlj9l0.apps.googleusercontent.com',
-            'clientSecret' => 'reG72krsEUyBulm0TWz6RvwF',
-            'refreshToken' => '1/K8Pm9PVMa8kPKWvxrTv32DYS1tNKLL3u-v5bhrZ2qpY',
-            // 'rootFolderId' => 'xxx ROOT FOLDER ID xxx'
-        ],
-//            access: ya29.GlvVBtGwGmq_9pQNWkHydV1J5skvydj17c6kim9cUxy0x33xQKXEWy6pqu9AoMRQCJ9cYd1-Jp7IdiHGGYErxs87RIVJBrb9aE-DsCGNXNLIjFClWOVx8aBJz_B8
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
@@ -27,6 +19,9 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+        ],
+        'GoogleApiComponent' => [
+          'class' => 'common\components\GoogleApiComponent'
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -58,7 +53,7 @@ return [
         'assetManager' => [
             'bundles' => [
                 'yii\bootstrap\BootstrapPluginAsset' => [
-                    'js'=>[]
+                    'js' => []
                 ],
                 'yii\bootstrap\BootstrapAsset' => [
                     'css' => [],
