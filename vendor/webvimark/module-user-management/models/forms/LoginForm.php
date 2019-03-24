@@ -27,9 +27,7 @@ class LoginForm extends Model
 			['password', 'validatePassword'],
 
 			['username', 'validateIP'],
-//            [['reCaptcha'], \himiklab\yii2\recaptcha\ReCaptchaValidator::className(),
-//                'secret' => '6LeMbZkUAAAAAOrdTt2lpUmAXVeBZ61b-Fm_SWmA',
-//                'uncheckedMessage' => 'Please confirm that you are not a bot.']
+//            ['reCaptcha', \himiklab\yii2\recaptcha\ReCaptchaValidator::className(), 'secret' => '6LeMbZkUAAAAAOrdTt2lpUmAXVeBZ61b-Fm_SWmA']
 
         ];
 	}
@@ -37,6 +35,7 @@ class LoginForm extends Model
 	public function attributeLabels()
 	{
 		return [
+            'reCaptcha' => '',
 			'username'   => UserManagementModule::t('front', 'Username'),
 			'password'   => UserManagementModule::t('front', 'Password'),
 			'rememberMe' => UserManagementModule::t('front', 'Remember me'),
