@@ -7,6 +7,7 @@ use common\components\GoogleApiComponent;
 use common\models\Settings;
 use kartik\mpdf\Pdf;
 use Yii;
+use yii\db\AfterSaveEvent;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -120,37 +121,39 @@ class SiteController extends Controller
      * Displays contact page.
      *
      * @return mixed
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionContact()
     {
         $model = new ContactForm();
         $model->getDep4Cont();
 
-        $content = $model->getContent4Google();
 
-        $pdf = new Pdf([
-            'mode' => Pdf::MODE_UTF8,
-            'format' => Pdf::FORMAT_A4,
-            'orientation' => Pdf::ORIENT_PORTRAIT,
-            'destination' => Pdf::DEST_FILE,
-            //Сделал отдельное название файла по дате и времени и сохраняю в отдельную папку для отправки в google
-            'filename' => Yii::getAlias('@frontend') . "/web/pdf/" . date("Ymd_His") . '.pdf',
-            'content' => $this->renderPartial('_reportView', ['content' => $content]),
-            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
-            'cssInline' => '.kv-heading-1{font-size:18px}',
-            'options' => ['title' => 'Game Insight'],
-            'methods' => [
-                'SetHeader' => ['Game Insight'],
-                'SetFooter' => ['{PAGENO}'],
-            ],
-        ]);
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             //Сохраняю заявку
             $model->saveContact();
+            $content = $model->getContent4Google();
+
+            $pdf = new Pdf([
+                'mode' => Pdf::MODE_UTF8,
+                'format' => Pdf::FORMAT_A4,
+                'orientation' => Pdf::ORIENT_PORTRAIT,
+                'destination' => Pdf::DEST_FILE,
+                //Сделал отдельное название файла по дате и времени и сохраняю в отдельную папку для отправки в google
+                'filename' => Yii::getAlias('@frontend') . "/web/pdf/" . date("Ymd_His") . '.pdf',
+                'content' => $this->renderPartial('_reportView', ['content' => $content]),
+                'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+                'cssInline' => '.kv-heading-1{font-size:18px}',
+                'options' => ['title' => 'Game Insight'],
+                'methods' => [
+                    'SetHeader' => ['Game Insight'],
+                    'SetFooter' => ['{PAGENO}'],
+                ],
+            ]);
             //рендерю pdf
             $pdf->render();
-            //отсылаю в гугл
+            //редирект в гугл
             return $this->redirect(['site/calldrive']);
         } else {
             return $this->render('contact', [
@@ -163,6 +166,7 @@ class SiteController extends Controller
     {
         $api = new GoogleApiComponent();
         $api->createDocumentGoogleApi();
+        //и редирект обратно
         return $this->redirect(['site/contact']);
     }
 }

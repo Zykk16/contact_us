@@ -12,7 +12,7 @@ $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?
 
 <?= $form->field($model, 'imageFile')->fileInput() ?>
 
-<button>Submit</button>
+<button class="btn btn-success">Добавить</button>
 
 <?php ActiveForm::end() ?>
 

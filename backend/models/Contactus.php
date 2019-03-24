@@ -43,10 +43,10 @@ class Contactus extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_dep' => 'Id Dep',
-            'phone' => 'Phone',
-            'text' => 'Text',
-            'date_create' => 'Date Create',
+            'id_dep' => 'ID Департамента',
+            'phone' => 'Телефон',
+            'text' => 'Описание',
+            'date_create' => 'Заявка создана',
         ];
     }
 }

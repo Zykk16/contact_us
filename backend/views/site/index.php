@@ -22,6 +22,11 @@ use yii\helpers\Url; ?>
                 <p><a class="btn btn-default" href="<?= Url::toRoute('contactus/index') ?>">Перейти</a></p>
             </div>
             <div class="col-lg-6">
+                <h2>Департаменты</h2>
+                <p>Хранение данных ФИО, должности, подразделения</p>
+                <p><a class="btn btn-default" href="<?= Url::toRoute('department/index') ?>">Перейти</a></p>
+            </div>
+            <div class="col-lg-6">
                 <h2>Прочие настройки</h2>
                 <p>Описание, лого, можно еще в конфиги что-нибудь добавить.</p>
                 <p><a class="btn btn-default" href="<?= Url::toRoute('settings/index') ?>">Перейти</a></p>

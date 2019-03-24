@@ -8,76 +8,63 @@ use webvimark\modules\UserManagement\components\GhostHtml;
 use webvimark\modules\UserManagement\UserManagementModule;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-use common\components\ReCaptcha\ReCaptcha;
-use common\components\ReCaptcha\RequestMethod;
-
-// ваш секретный ключ
-$secret = "6LeMbZkUAAAAAOrdTt2lpUmAXVeBZ61b-Fm_SWmA";
-
-// пустой ответ
-$response = null;
-
-// проверка секретного ключа
-$reCaptcha = new ReCaptcha($secret);
-
-// if submitted check response
-
 ?>
 
-    <div class="container" id="login-wrapper">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><?= UserManagementModule::t('front', 'Authorization') ?></h3>
-                    </div>
-                    <div class="panel-body">
+<div class="container" id="login-wrapper">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title"><?= UserManagementModule::t('front', 'Authorization') ?></h3>
+				</div>
+				<div class="panel-body">
 
-                        <?php
-                        $form = ActiveForm::begin([
-                            'id' => 'login-form',
-                            'options' => ['autocomplete' => 'off'],
-                            'validateOnBlur' => false,
-                            'fieldConfig' => [
-                                'template' => "{input}\n{error}",
-                            ],
-                        ]) ?>
+					<?php $form = ActiveForm::begin([
+						'id'      => 'login-form',
+						'options'=>['autocomplete'=>'off'],
+						'validateOnBlur'=>false,
+						'fieldConfig' => [
+							'template'=>"{input}\n{error}",
+						],
+					]) ?>
 
-                        <?= $form->field($model, 'username')
-                            ->textInput(['placeholder' => $model->getAttributeLabel('username'), 'autocomplete' => 'off']) ?>
+					<?= $form->field($model, 'username')
+						->textInput(['placeholder'=>$model->getAttributeLabel('username'), 'autocomplete'=>'off']) ?>
 
-                        <?= $form->field($model, 'password')
-                            ->passwordInput(['placeholder' => $model->getAttributeLabel('password'), 'autocomplete' => 'off']) ?>
+					<?= $form->field($model, 'password')
+						->passwordInput(['placeholder'=>$model->getAttributeLabel('password'), 'autocomplete'=>'off']) ?>
 
-                        <?= (isset(Yii::$app->user->enableAutoLogin) && Yii::$app->user->enableAutoLogin) ? $form->field($model, 'rememberMe')->checkbox(['value' => true]) : '' ?>
-                        <?= $form->field($model, 'reCaptcha')->widget(\himiklab\yii2\recaptcha\ReCaptcha::className()) ?>
-                        <?= Html::submitButton(
-                            UserManagementModule::t('front', 'Login'),
-                            ['class' => 'btn btn-lg btn-primary btn-block']
-                        ) ?>
+					<?= (isset(Yii::$app->user->enableAutoLogin) && Yii::$app->user->enableAutoLogin) ? $form->field($model, 'rememberMe')->checkbox(['value'=>true]) : '' ?>
+                    <?= $form->field($model, 'reCaptcha')->widget(\himiklab\yii2\recaptcha\ReCaptcha::className()) ?>
+					<?= Html::submitButton(
+						UserManagementModule::t('front', 'Login'),
+						['class' => 'btn btn-lg btn-primary btn-block']
+					) ?>
 
-                        <div class="row registration-block">
-                            <div class="col-sm-6">
-                                <?= GhostHtml::a(
-                                    UserManagementModule::t('front', "Registration"),
-                                    ['/user-management/auth/registration']
-                                ) ?>
-                            </div>
-                            <div class="col-sm-6 text-right">
-                                <?= GhostHtml::a(
-                                    UserManagementModule::t('front', "Forgot password ?"),
-                                    ['/user-management/auth/password-recovery']
-                                ) ?>
-                            </div>
-                        </div>
+					<div class="row registration-block">
+						<div class="col-sm-6">
+							<?= GhostHtml::a(
+								UserManagementModule::t('front', "Registration"),
+								['/user-management/auth/registration']
+							) ?>
+						</div>
+						<div class="col-sm-6 text-right">
+							<?= GhostHtml::a(
+								UserManagementModule::t('front', "Forgot password ?"),
+								['/user-management/auth/password-recovery']
+							) ?>
+						</div>
+					</div>
 
 
-                        <?php ActiveForm::end() ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+
+					<?php ActiveForm::end() ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <?php
 $css = <<<CSS
@@ -98,5 +85,5 @@ html, body {
 }
 CSS;
 
-$this->registerCss($css);
-?>
+    $this->registerCss($css);
+    ?>

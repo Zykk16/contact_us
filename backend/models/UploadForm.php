@@ -33,6 +33,13 @@ class UploadForm extends Model
         }
     }
 
+    public function attributeLabels()
+    {
+        return [
+          'imageFile' => 'Нажмите чтоб загрузить изображение',
+        ];
+    }
+
     public function save()
     {
         Yii::$app->db->createCommand()->insert('slider', [

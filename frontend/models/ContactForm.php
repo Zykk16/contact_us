@@ -67,7 +67,6 @@ class ContactForm extends Model
             'date_create' => date("Y-m-d"),
         ])->execute();
     }
-
     public function getContent4Google()
     {
         $query = (new \yii\db\Query())

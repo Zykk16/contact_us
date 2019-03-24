@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Settings */
+/* @var $model backend\models\Department */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Настройки', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Подразделения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="settings-view">
+<div class="department-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Действительно удалить?',
+                'confirm' => 'Действительно хотите удалить?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -30,8 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'key',
-            'value',
+            'division',
+            'specialist',
+            'position',
         ],
     ]) ?>
 

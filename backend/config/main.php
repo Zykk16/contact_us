@@ -11,9 +11,12 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log', 'gii'],
+    'name' => 'Бэкэнд',
+    'language' => 'ru-RU', // язык приложения
     'modules' => [
         'gii' => [
             'class' => 'yii\gii\Module',
+            'allowedIPs' => ['*']
         ],
         'user-management' => [
             'class' => 'webvimark\modules\UserManagement\UserManagementModule',

@@ -38,8 +38,8 @@ class Settings extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'key' => 'Key',
-            'value' => 'Value',
+            'key' => 'Ключи',
+            'value' => 'Значения',
         ];
     }
 }

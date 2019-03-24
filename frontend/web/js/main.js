@@ -45,7 +45,9 @@ $(document).ready(function () {
         loop: true,
         margin: 10,
         nav: false,
-
+        autoplay: true,
+        autoplaySpeed: 700,
+        autoplayTimeout: 3000,
         autoHeightClass: 'owl-height',
         responsive: {
             0: {

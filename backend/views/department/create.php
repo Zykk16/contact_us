@@ -3,13 +3,13 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Contactus */
+/* @var $model backend\models\Department */
 
-$this->title = 'Добавить заявку';
-$this->params['breadcrumbs'][] = ['label' => 'Заявки', 'url' => ['index']];
+$this->title = 'Добавить подразделение';
+$this->params['breadcrumbs'][] = ['label' => 'Подразделения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="contactus-create">
+<div class="department-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
